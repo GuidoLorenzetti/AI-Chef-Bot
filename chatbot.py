@@ -73,7 +73,7 @@ def prepare_prompt(query_str: str, nodes: list):
       "---------------------\n"
       "{context_str}\n"
       "---------------------\n"
-      "Dada la información de contexto anterior, y sin utilizar conocimiento previo, responde la siguiente pregunta.\n"
+      "Dada la información de contexto anterior, y sin utilizar conocimiento previo, responde en español la siguiente pregunta. Agrega en caso de que se necesite la receta, con título, ingredientes, procedimiento y meciona en que página de que libro se encuentra. No debes agregar recetas de otros libros ni material adicional. En caso de que la receta pedida no se encuentre en el material provisto debes aclararlo.\n"
       "Pregunta: {query_str}\n"
       "Respuesta: "
   )
@@ -90,7 +90,7 @@ def prepare_prompt(query_str: str, nodes: list):
   messages = [
       {
           "role": "system",
-          "content": "Eres un asistente útil que siempre responde con respuestas veraces, útiles y basadas en hechos.",
+          "content": "Eres un asistente de cocina útil que siempre responde con respuestas veraces, útiles y basadas en hechos.",
       },
       {"role": "user", "content": TEXT_QA_PROMPT_TMPL.format(context_str=context_str, query_str=query_str)},
   ]
@@ -114,29 +114,7 @@ def load_model():
     # Construimos un retriever a partir del índice, para realizar la búsqueda vectorial de documentos
     retriever = index.as_retriever(similarity_top_k=2)
 
-    print('Realizando llamada a HuggingFace para generar respuestas...\n')
-
     return retriever
-
-# queries = ['¿Que pasó en la crisis del 29?',
-#            '¿Cuándo se redactó la constitución Argentina?',
-#            '¿Cuándo fué la revolución de Mayo?',
-#            '¿Cuándo se declaró la independencia?',
-#            '¿Cuándo asumió Raúl Alfonsín como presidente?']
-
-# for query_str in queries:
-#     # Traemos los documentos más relevantes para la consulta
-#     nodes = retriever.retrieve(query_str)
-#     final_prompt = prepare_prompt(query_str, nodes)
-#     print('Pregunta:', query_str)
-#     print('Respuesta:')
-#     print(generate_answer(final_prompt))
-#     print('-------------------------------------------------------')
-
-# def generate_answer(retriever, query_str:str):
-#     nodes = retriever.retrieve(query_str)
-#     final_prompt = prepare_prompt(query_str, nodes)
-#     return final_prompt
 
 def get_answer(retriever, query_str:str):
     nodes = retriever.retrieve(query_str)
