@@ -5,6 +5,9 @@ from llama_index import VectorStoreIndex, SimpleDirectoryReader
 from jinja2 import Template
 import requests
 from decouple import config
+import torch
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+print(f"PyTorch está utilizando el dispositivo: {device}")
 
 HUGGINGFACE_TOKEN=config('HUGGINGFACE_TOKEN')
 
@@ -73,7 +76,7 @@ def prepare_prompt(query_str: str, nodes: list):
       "---------------------\n"
       "{context_str}\n"
       "---------------------\n"
-      "Dada la información de contexto anterior, y sin utilizar conocimiento previo, responde en español la siguiente pregunta. Agrega en caso de que se necesite la receta, con título, ingredientes, procedimiento y meciona en que página de que libro se encuentra sin agregarle al título el nombre de la carpeta que es llamaindex_data. No debes agregar recetas de otros libros ni material adicional. En caso de que la receta pedida no se encuentre en el material provisto debes aclararlo. No añadas el nombre de la carpeta de los libros en las respuestas\n"
+      "RESPONDE EN ESPAÑOL. Dada la información de contexto anterior, y sin utilizar conocimiento previo, responde en español la siguiente consulta. En caso de que tu respuesta sea una receta envíala con título, ingredientes, procedimiento y meciona en que página de que libro se encuentra sin agregarle al título el nombre de la carpeta que es llamaindex_data. No debes agregar recetas de otros libros ni material adicional. En caso de que la receta pedida no se encuentre en el material provisto debes aclararlo y no enviar receta. No añadas el directorio de los libros en las respuestas.\n"
       "Pregunta: {query_str}\n"
       "Respuesta: "
   )

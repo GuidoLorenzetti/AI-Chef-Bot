@@ -6,8 +6,9 @@ import time
 import logging
 import re
 from chatbot import *
+from decouple import config
 
-TELEGRAM_TOKEN = '6813772856:AAF2Xkq-mDlgh82KX2Q-lJPT11xJtdJ4mE4'
+TELEGRAM_TOKEN = config('TELEGRAM_TOKEN')
 
 bot = telebot.TeleBot(TELEGRAM_TOKEN, parse_mode=None) # You can set parse_mode by default. HTML or MARKDOWN
 
@@ -35,21 +36,17 @@ async def send_today_recipe(message: types.Message):
 
 @dp.message_handler(commands=['ingredientes'])
 async def make_recipe(message: types.Message):
-    reply_message = (
-        "¡Perfecto! Añade los ingredientes que tienes en tu cocina y te diré qué recetas puedes preparar.\n"
-        "Por favor, envía los ingredientes separados por comas."
-    )
-    await message.reply(reply_message)
+    message_text = message.text
+    # Obtener la parte del mensaje después de "/ingredientes"
+    ingredientes_str = message_text[len("/ingredientes"):].strip()
+    if len(ingredientes_str) == 0:
+        await message.reply("Por favor, ingresa los ingredientes que tienes disponibles.")
+        return
+    else:
+        # Aquí puedes llamar a una función para procesar los ingredientes y sugerir recetas
+        suggested_recipes = get_answer(retriever, "Dame una receta con los ingredientes: " + ", ".join(ingredientes_str))
 
-    user_input = await dp.wait_for(types.Message, timeout=60)  # Espera la respuesta durante 60 segundos
-    ingredients = user_input.text.split(',')
-
-    # Aquí puedes llamar a una función para procesar los ingredientes y sugerir recetas
-    suggested_recipes = get_answer(retriever, "Dame una receta con los ingredientes: " + ", ".join(ingredients))
-    reply_message = f"Aquí tienes algunas recetas que puedes preparar con los ingredientes que tienes:\n\n"
-    reply_message += "\n".join(suggested_recipes)
-
-    await message.reply(reply_message)
+        await message.reply(suggested_recipes)
 
 @dp.message_handler(commands=['tips'])
 async def send_today_recipe(message: types.Message):
