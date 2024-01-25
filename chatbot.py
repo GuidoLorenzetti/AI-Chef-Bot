@@ -6,6 +6,7 @@ from jinja2 import Template
 import requests
 from decouple import config
 import torch
+
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print(f"PyTorch está utilizando el dispositivo: {device}")
 
@@ -104,8 +105,12 @@ def prepare_prompt(query_str: str, nodes: list):
 def load_model():
     # Cargamos nuestro modelo de embeddings
     print('Cargando modelo de embeddings...')
-    embed_model = LangchainEmbedding(
-        HuggingFaceEmbeddings(model_name='sentence-transformers/paraphrase-multilingual-mpnet-base-v2'))
+    embed_model = LangchainEmbedding(HuggingFaceEmbeddings(
+        model_name='sentence-transformers/paraphrase-multilingual-mpnet-base-v2',
+        model_kwargs={'device': 'cuda'},
+        encode_kwargs={'normalize_embeddings': True}
+    )
+    )
 
     # Construimos un índice de documentos a partir de los datos de la carpeta llamaindex_data
     print('Indexando documentos...')
