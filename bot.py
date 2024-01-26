@@ -20,11 +20,11 @@ async def send_welcome(message: types.Message):
     welcome_message = (
         "¡Bienvenido a LinguinIA, tu asistente culinario! 🍳👩‍🍳\n"
         "Estoy aquí para ayudarte a descubrir nuevas recetas y mejorar tus habilidades en la cocina.\n\n"
-        "Puedes utilizar los siguientes comandos:\n"
+        "Puedes pedirme una receta especifíca y te ayudaré a encontrarla.\n\n"
+        "O Puedes utilizar los siguientes comandos:\n"
         "/hoy - Descubre la sugerencia del día para tu comida.\n"
         "/ingredientes - Proporciona una lista de ingredientes y te diré qué recetas puedes preparar.\n"
         "/tips - Obtén consejos útiles para mejorar tus habilidades culinarias.\n"
-        "O puedes pedirme una receta especifíca y te ayudaré a encontrarla.\n\n"
         "¡Explora las recetas, sorprende a tus seres queridos y disfruta de la magia de la cocina!"
     )
     await message.reply(welcome_message)

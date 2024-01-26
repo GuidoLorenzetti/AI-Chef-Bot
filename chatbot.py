@@ -2,10 +2,13 @@ from langchain.embeddings.huggingface import HuggingFaceEmbeddings
 from llama_index.embeddings import LangchainEmbedding
 from llama_index import ServiceContext
 from llama_index import VectorStoreIndex, SimpleDirectoryReader
+from llama_index.storage.storage_context import StorageContext
+from llama_index.vector_stores import ChromaVectorStore
 from jinja2 import Template
 import requests
 from decouple import config
 import torch
+from chromadatabase import load_collection
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print(f"PyTorch está utilizando el dispositivo: {device}")
@@ -115,9 +118,13 @@ def load_model():
     # Construimos un índice de documentos a partir de los datos de la carpeta llamaindex_data
     print('Indexando documentos...')
     # Create a service context with the custom embedding model
-    documents = SimpleDirectoryReader("llamaindex_data").load_data()
-    index = VectorStoreIndex.from_documents(documents, show_progress=True,
-                                            service_context=ServiceContext.from_defaults(embed_model=embed_model, llm=None))
+    chroma_collection = load_collection()
+    # vector_store = ChromaVectorStore(chroma_collection=chroma_collection)
+    service_context = ServiceContext.from_defaults(embed_model=embed_model, llm=None)
+    index = VectorStoreIndex.from_vector_store(
+        vector_store=chroma_collection,
+        service_context=service_context,
+    )
 
     # Construimos un retriever a partir del índice, para realizar la búsqueda vectorial de documentos
     retriever = index.as_retriever(similarity_top_k=2)
@@ -128,3 +135,5 @@ def get_answer(retriever, query_str:str):
     nodes = retriever.retrieve(query_str)
     final_prompt = prepare_prompt(query_str, nodes)
     return generate_answer(final_prompt)
+
+model=load_model()
