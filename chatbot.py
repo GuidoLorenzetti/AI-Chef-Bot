@@ -106,7 +106,7 @@ def prepare_prompt(query_str: str, nodes: list):
   return final_prompt
 
 def load_model():
-    # Cargamos nuestro modelo de embeddings
+    
     print('Cargando modelo de embeddings...')
     embed_model = LangchainEmbedding(HuggingFaceEmbeddings(
         model_name='sentence-transformers/paraphrase-multilingual-mpnet-base-v2',
@@ -116,10 +116,14 @@ def load_model():
     )
     print('Indexando documentos...')
     chroma_collection = load_collection()
+    documents = SimpleDirectoryReader("llamaindex_data").load_data()
+
+    # set up ChromaVectorStore and load in data
+    vector_store = ChromaVectorStore(chroma_collection=chroma_collection)
+    storage_context = StorageContext.from_defaults(vector_store=vector_store)
     service_context = ServiceContext.from_defaults(embed_model=embed_model, llm=None)
-    index = VectorStoreIndex.from_vector_store(
-        vector_store=chroma_collection,
-        service_context=service_context,
+    index = VectorStoreIndex.from_documents(
+        documents, storage_context=storage_context, service_context=service_context, show_progress=True
     )
 
     retriever = index.as_retriever(similarity_top_k=2)
@@ -130,5 +134,3 @@ def get_answer(retriever, query_str:str):
     nodes = retriever.retrieve(query_str)
     final_prompt = prepare_prompt(query_str, nodes)
     return generate_answer(final_prompt)
-
-model=load_model()

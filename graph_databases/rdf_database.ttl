@@ -1,0 +1,16 @@
+@prefix ns1: <http://example.org/ontology/> .
+
+<http://example.org/node/6319966688> ns1:alergias <http://example.org/node/Pescado> ;
+    ns1:comidas_menos_preferidas <http://example.org/node/Fideos> ;
+    ns1:comidas_preferidas <http://example.org/node/Hamburguesa> ;
+    ns1:dieta <http://example.org/node/Vegetariana> ;
+    ns1:edad <http://example.org/node/62> ;
+    ns1:nombre <http://example.org/node/Mercedes> ;
+    ns1:sensibilidad <http://example.org/node/Celiaquia> .
+
+<http://example.org/node/Celiaquia> ns1:Ingredientes_no_consumir <http://example.org/node/Carne%2C%20Gluten%2C%20Pescado> .
+
+<http://example.org/node/Pescado> ns1:Ingredientes_no_consumir <http://example.org/node/Carne%2C%20Gluten%2C%20Pescado> .
+
+<http://example.org/node/Vegetariana> ns1:Ingredientes_no_consumir <http://example.org/node/Carne%2C%20Gluten%2C%20Pescado> .
+

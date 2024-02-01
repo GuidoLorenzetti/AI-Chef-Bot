@@ -2,8 +2,20 @@ import chromadb
 import os
 import PyPDF2
 from chromadb.utils import embedding_functions
+import shutil
 
 def load_collection():
+
+    carpeta_a_eliminar = 'chroma'
+    try:
+        # Eliminar la carpeta y su contenido
+        shutil.rmtree(carpeta_a_eliminar)
+        print(f"La carpeta '{carpeta_a_eliminar}' ha sido eliminada exitosamente.")
+    except FileNotFoundError:
+        print(f"La carpeta '{carpeta_a_eliminar}' no existe.")
+    except OSError as e:
+        print(f"No se pudo eliminar la carpeta '{carpeta_a_eliminar}': {e}")
+        
     chroma_client = chromadb.PersistentClient()
     print('Cargando modelo de embeddings...')
     embed_model = embedding_functions.SentenceTransformerEmbeddingFunction(
