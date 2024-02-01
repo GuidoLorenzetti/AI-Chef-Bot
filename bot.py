@@ -144,6 +144,15 @@ logging.basicConfig(level=logging.INFO)
 
 def load_data():
     global retriever
+    global clasificador
+    
+    logging.info('Iniciando carga de clasificador...')
+    try:
+        clasificador = joblib.load('modelo_LR.pkl')
+        logging.info('Carga de datos exitosa.')
+    except Exception as e:
+        logging.error('Error al cargar clasificador: %s', str(e))
+
     logging.info('Iniciando carga de modelo...')
     try:
         retriever = load_model()

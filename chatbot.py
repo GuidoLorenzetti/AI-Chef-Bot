@@ -9,6 +9,14 @@ import requests
 from decouple import config
 import torch
 from chromadatabase import load_collection
+import joblib
+from sklearn.feature_extraction.text import TfidfVectorizer
+import nltk
+
+nltk.download('stopwords')
+from nltk.corpus import stopwords
+
+spanish_stop_words = stopwords.words('spanish')
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print(f"PyTorch está utilizando el dispositivo: {device}")
@@ -106,7 +114,10 @@ def prepare_prompt(query_str: str, nodes: list):
   return final_prompt
 
 def load_model():
-    
+    print("Cargando clasificador")
+    # Cargar el modelo desde el archivo
+    clasificador = joblib.load('modelo_LR.pkl')
+
     print('Cargando modelo de embeddings...')
     embed_model = LangchainEmbedding(HuggingFaceEmbeddings(
         model_name='sentence-transformers/paraphrase-multilingual-mpnet-base-v2',
@@ -129,6 +140,16 @@ def load_model():
     retriever = index.as_retriever(similarity_top_k=2)
 
     return retriever
+
+def clasificator(query_str: str, clasificador):
+    # Vectorizar la nueva frase
+    vectorizer = TfidfVectorizer(stop_words=spanish_stop_words)
+    vectorized_query = vectorizer.transform([query_str])
+    prediction = clasificador.predict(vectorized_query)
+    if prediction[0] == 1:
+        return "recetas"
+    else:
+        return "restaurantes"
 
 def get_answer(retriever, query_str:str):
     nodes = retriever.retrieve(query_str)
