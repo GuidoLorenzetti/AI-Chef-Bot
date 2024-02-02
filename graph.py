@@ -57,7 +57,8 @@ def create_graph(datos_usuario, usuario):
         node_str = str(node)
         encoded_node = urllib.parse.quote(node_str, safe='')
         subject_uri = URIRef(f"http://example.org/node/{encoded_node}")
-        #rdf_graph.add((subject_uri, RDF.type, URIRef("http://example.org/ontology/Node")))
+
+        rdf_graph.add((subject_uri, RDF.type, URIRef("http://example.org/ontology/Node")))
 
     # Transform edges to RDF triples
     for edge in G.edges:
@@ -75,8 +76,8 @@ def create_graph(datos_usuario, usuario):
         # Use the same relation label as in NetworkX (edge[2])
         relation_label = str(G[edge[0]][edge[1]]['label']) if 'label' in G[edge[0]][edge[1]] else "knows"
 
-        # Replace spaces with underscores in the relation label
-        relation_label = relation_label.replace(' ', '_')
+        # Replace spaces and commas with underscores in the relation label
+        relation_label = relation_label.replace(' ', '_').replace(',', '_')
 
         rdf_graph.add((subject_uri, URIRef(f"http://example.org/ontology/{relation_label}"), object_uri))
 

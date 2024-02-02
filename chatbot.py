@@ -1,7 +1,7 @@
 from langchain.embeddings.huggingface import HuggingFaceEmbeddings
 from llama_index.embeddings import LangchainEmbedding
 from llama_index import ServiceContext
-from llama_index import VectorStoreIndex, SimpleDirectoryReader
+from llama_index import VectorStoreIndex
 from llama_index.storage.storage_context import StorageContext
 from llama_index.vector_stores import ChromaVectorStore
 from jinja2 import Template
@@ -9,9 +9,11 @@ import requests
 from decouple import config
 import torch
 from chromadatabase import load_collection
-import joblib
-from sklearn.feature_extraction.text import TfidfVectorizer
 import nltk
+from maps_scraper import *
+import pandas as pd
+import pickle
+from time import sleep
 
 nltk.download('stopwords')
 from nltk.corpus import stopwords
@@ -114,10 +116,7 @@ def prepare_prompt(query_str: str, nodes: list):
   return final_prompt
 
 def load_model():
-    print("Cargando clasificador")
-    # Cargar el modelo desde el archivo
-    clasificador = joblib.load('modelo_LR.pkl')
-
+    
     print('Cargando modelo de embeddings...')
     embed_model = LangchainEmbedding(HuggingFaceEmbeddings(
         model_name='sentence-transformers/paraphrase-multilingual-mpnet-base-v2',
@@ -127,30 +126,48 @@ def load_model():
     )
     print('Indexando documentos...')
     chroma_collection = load_collection()
-    documents = SimpleDirectoryReader("llamaindex_data").load_data()
 
     # set up ChromaVectorStore and load in data
     vector_store = ChromaVectorStore(chroma_collection=chroma_collection)
     storage_context = StorageContext.from_defaults(vector_store=vector_store)
     service_context = ServiceContext.from_defaults(embed_model=embed_model, llm=None)
-    index = VectorStoreIndex.from_documents(
-        documents, storage_context=storage_context, service_context=service_context, show_progress=True
+    index = VectorStoreIndex.from_vector_store(
+        vector_store, storage_context=storage_context, service_context=service_context, show_progress=True
     )
 
     retriever = index.as_retriever(similarity_top_k=2)
 
     return retriever
 
-def clasificator(query_str: str, clasificador):
-    # Vectorizar la nueva frase
-    vectorizer = TfidfVectorizer(stop_words=spanish_stop_words)
+def clas(query_str: str, clasificador, vectorizer, retriever):
     vectorized_query = vectorizer.transform([query_str])
     prediction = clasificador.predict(vectorized_query)
+    print(prediction)
     if prediction[0] == 1:
-        return "recetas"
+        print(query_str)
+        answer = get_answer(retriever, query_str)
+        return answer
     else:
-        return "restaurantes"
+        resultados=[]
+        places, keywords, locations = extract_entities(query_str)
+        print(places, keywords, locations)
+        obtain_places(places[0], " ".join(keywords), locations[0], query_str)
+        # Seleccionar los primeros 5 restaurantes
 
+        df = pd.read_csv(os.path.dirname(os.path.abspath(__file__))+"/tabular_data/" + query_str.replace(" ","") + ".csv")
+
+        primeros_5 = df.head(5)
+        
+        # Generar el resultado escrito
+        for index, restaurante in primeros_5.iterrows():
+            resultado_escrito = ""
+            resultado_escrito += f"Restaurante: {restaurante['name']}\n"
+            resultado_escrito += f"Enlace: {restaurante['link']}\n"
+            resultado_escrito += f"Calificación: {restaurante['rating']}\n"
+            resultado_escrito += f"Dirección: {restaurante['address']}\n\n"
+            resultados.append(resultado_escrito)
+        return resultados
+    
 def get_answer(retriever, query_str:str):
     nodes = retriever.retrieve(query_str)
     final_prompt = prepare_prompt(query_str, nodes)

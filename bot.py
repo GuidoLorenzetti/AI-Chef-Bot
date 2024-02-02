@@ -6,6 +6,9 @@ from chatbot import *
 from graph import *
 from decouple import config
 
+clasificador = pickle.load(open('clasificador.pickle', 'rb'))
+vectorizer = pickle.load(open('vectorizer.pickle', 'rb'))
+
 TELEGRAM_TOKEN = config('TELEGRAM_TOKEN')
 
 bot = telebot.TeleBot(TELEGRAM_TOKEN) # You can set parse_mode by default. HTML or MARKDOWN
@@ -100,7 +103,6 @@ def save_profile(message):
     texto = 'Datos introducidos:\n'
     for key, value in usuarios[message.chat.id].items():
         texto += f"{key}: {value}\n"
-    bot.send_message(chat_id, texto, parse_mode="html")
     bot.send_message(chat_id, "¡Gracias por completar tu perfil!")
     print(usuarios[message.chat.id])
     create_graph(usuarios[message.chat.id], message.chat.id)
@@ -134,26 +136,20 @@ def handle_text(message) -> None:
     # Obtén el mensaje de texto del usuario
     user_message = message.text
     print("Mensaje:", user_message)
-    bot_response = get_answer(retriever, user_message)
-
-    # Envía la respuesta al usuario
-    bot.reply_to(message, bot_response)
+    bot_response = clas(user_message, clasificador, vectorizer, retriever)
+    if isinstance(bot_response, list):
+        for i in bot_response:
+            bot.reply_to(message, i)
+            sleep(1)
+    else:
+        bot.reply_to(message, bot_response)
 
 # Configurar el registro (log)
 logging.basicConfig(level=logging.INFO)
 
 def load_data():
-    global retriever
-    global clasificador
-    
-    logging.info('Iniciando carga de clasificador...')
-    try:
-        clasificador = joblib.load('modelo_LR.pkl')
-        logging.info('Carga de datos exitosa.')
-    except Exception as e:
-        logging.error('Error al cargar clasificador: %s', str(e))
 
-    logging.info('Iniciando carga de modelo...')
+    global retriever
     try:
         retriever = load_model()
         logging.info('Carga de datos exitosa.')
@@ -166,3 +162,4 @@ data_loading_thread.start()
 if __name__ == '__main__':
     print("Bot is running...")
     bot.infinity_polling()
+    print('Bot is stopped')
