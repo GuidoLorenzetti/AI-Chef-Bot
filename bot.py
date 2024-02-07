@@ -46,7 +46,7 @@ def process_name_step(message):
     bot.register_next_step_handler(age, process_age_step)
 
 def process_age_step(message):
-    usuarios[message.chat.id]['edad'] = message.text
+    usuarios[message.chat.id]['edad'] = message.text.replace(" ", "")
     chat_id = message.chat.id
     markup = ReplyKeyboardMarkup(one_time_keyboard=True, input_field_placeholder="Pulsa un botón", resize_keyboard=True)
     markup.add("Vegana","Vegetariana", "Cetogenica", "Sin restricciones")
@@ -63,15 +63,15 @@ def process_diet_step(message):
     else:
         usuarios[message.chat.id]['dieta'] = message.text
         markup = ReplyKeyboardMarkup(one_time_keyboard=True, input_field_placeholder="Pulsa un botón", resize_keyboard=True)
-        markup.add("Celiaquia","Sensibilidad", "Sin restricciones")
+        markup.add("Celiaquia", "Sin restricciones")
         sensitivity = bot.send_message(chat_id, "¿Tienes algún tipo de sensibilidad al gluten?", reply_markup=markup)
         bot.register_next_step_handler(sensitivity, process_sensitivity_step)
 
 def process_sensitivity_step(message):
     chat_id = message.chat.id
-    if message.text != "Celiaquia" and message.text != "Sensibilidad" and message.text != "Sin restricciones":
+    if message.text != "Celiaquia" and message.text != "Sin restricciones":
         markup = ReplyKeyboardMarkup(one_time_keyboard=True, input_field_placeholder="Pulsa un botón", resize_keyboard=True)
-        markup.add("Celiaquia","Sensibilidad", "Sin restricciones")
+        markup.add("Celiaquia", "Sin restricciones")
         sensitivity = bot.send_message(chat_id, "Por favor, selecciona una opción válida", reply_markup=markup)
         bot.register_next_step_handler(sensitivity, process_sensitivity_step)
     else:
@@ -82,7 +82,7 @@ def process_sensitivity_step(message):
 
 def process_allergy_step(message):
     chat_id = message.chat.id
-    allergy = message.text.split(",")
+    allergy = message.text.replace(" ", "").split(",")
     usuarios[message.chat.id]['alergias'] = allergy
     markup = ForceReply()
     diet = bot.send_message(chat_id, "¿Cuáles son tus comidas preferidas? (Por favor añade todas las correspondientes separadas por coma)", reply_markup=markup)
@@ -90,7 +90,7 @@ def process_allergy_step(message):
 
 def process_favfood_step(message):
     chat_id = message.chat.id
-    favfood = message.text.split(",")
+    favfood = message.text.replace(" ", "").split(",")
     usuarios[message.chat.id]['comidas_preferidas'] = favfood
     markup = ForceReply()
     diet = bot.send_message(chat_id, "¿Cuáles son tus comidas menos preferidas? (Por favor añade todas las correspondientes separadas por coma)", reply_markup=markup)
@@ -98,7 +98,7 @@ def process_favfood_step(message):
 
 def save_profile(message):
     chat_id = message.chat.id
-    leastfavfood = message.text.split(",")
+    leastfavfood = message.text.replace(" ", "").split(",")
     usuarios[message.chat.id]['comidas_menos_preferidas'] = leastfavfood
     texto = 'Datos introducidos:\n'
     for key, value in usuarios[message.chat.id].items():

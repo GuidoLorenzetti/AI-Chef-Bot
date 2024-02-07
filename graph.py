@@ -22,15 +22,15 @@ def create_graph(datos_usuario, usuario):
     for key, value in datos_usuario.items():
         # Convertir listas a cadenas
         if isinstance(value, list):
-            value = ', '.join(value)
+            value = '_'.join(value)
         
         G.add_node(value, label=key)
         G.add_edge(usuario, value, label=key)
 
     datos_usuario = obtain_non_consumible_ingredients(datos_usuario)
 
-    value = ', '.join(datos_usuario['ingredientes_no_consumir'])
-    value1 = ', '.join(datos_usuario['alergias'])
+    value = '_'.join(datos_usuario['ingredientes_no_consumir'])
+    value1 = '_'.join(datos_usuario['alergias'])
     G.add_node(value, label="Ingredientes no consumir")
     G.add_edge(datos_usuario['dieta'], value, label="Ingredientes no consumir")
     G.add_edge(datos_usuario['sensibilidad'], value, label="Ingredientes no consumir")
@@ -92,7 +92,7 @@ def obtain_non_consumible_ingredients(dict):
     dict['ingredientes_no_consumir'] = []
 
     if dict['dieta'] == 'Vegana':
-        dict['ingredientes_no_consumir'].append('Productos de origen animal')
+        dict['ingredientes_no_consumir'].append('Productos_de_origen_animal')
 
     elif dict['dieta'] == 'Vegetariana':
         dict['ingredientes_no_consumir'].append('Carne')
@@ -101,12 +101,10 @@ def obtain_non_consumible_ingredients(dict):
         dict['ingredientes_no_consumir'].append('Carbohidratos')
 
     if dict['sensibilidad'] == 'Celiaquia':
-        dict['ingredientes_no_consumir'].append('Gluten')
-
-    elif dict['sensibilidad'] == 'Sensibilidad':
-        dict['ingredientes_no_consumir'].append('Ingredientes específicos que causan sensibilidad al gluten')
+        dict['ingredientes_no_consumir'].append('Ingredientes_con_gluten')
 
     if 'Ninguna' not in dict['alergias']:
         dict['ingredientes_no_consumir'].extend(dict['alergias'])
 
     return dict
+
