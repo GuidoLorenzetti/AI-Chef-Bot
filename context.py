@@ -3,7 +3,10 @@ from rdflib import Graph, Namespace
 def generate_context(user):
     # Cargar el grafo RDF desde un archivo o fuente
     g = Graph()
-    g.parse(f"graph_databases/rdf_{user}_database.ttl", format="turtle")  # Asegúrate de especificar el formato correcto
+    try:
+        g.parse(f"graph_databases/rdf_{user}_database.ttl", format="turtle")  # Asegúrate de especificar el formato correcto
+    except FileNotFoundError:
+        return "No se encontró información para el usuario especificado."
 
     ns1 = Namespace("http://example.org/ontology/")
 

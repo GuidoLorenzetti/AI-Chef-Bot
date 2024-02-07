@@ -1,30 +1,30 @@
 @prefix ns1: <http://example.org/ontology/> .
 
 <http://example.org/node/6319966688> a ns1:Node ;
-    ns1:alergias <http://example.org/node/Hamburguesa_Pizza> ;
-    ns1:comidas_menos_preferidas <http://example.org/node/Ensalada_Tomate> ;
-    ns1:comidas_preferidas <http://example.org/node/Pescado> ;
-    ns1:dieta <http://example.org/node/Vegetariana> ;
-    ns1:edad <http://example.org/node/48> ;
-    ns1:nombre <http://example.org/node/Javier> ;
+    ns1:alergias <http://example.org/node/Pescado> ;
+    ns1:comidas_menos_preferidas <http://example.org/node/Tomate_Cebolla> ;
+    ns1:comidas_preferidas <http://example.org/node/Ensalada> ;
+    ns1:dieta <http://example.org/node/Vegana> ;
+    ns1:edad <http://example.org/node/24> ;
+    ns1:nombre <http://example.org/node/Guido> ;
     ns1:sensibilidad <http://example.org/node/Celiaquia> .
 
-<http://example.org/node/48> a ns1:Node .
+<http://example.org/node/24> a ns1:Node .
 
 <http://example.org/node/Celiaquia> a ns1:Node ;
-    ns1:Ingredientes_no_consumir <http://example.org/node/Carne_Ingredientes_con_gluten_Hamburguesa_Pizza> .
+    ns1:Ingredientes_no_consumir <http://example.org/node/Productos_de_origen_animal_Ingredientes_con_gluten_Pescado> .
 
-<http://example.org/node/Ensalada_Tomate> a ns1:Node .
+<http://example.org/node/Ensalada> a ns1:Node .
 
-<http://example.org/node/Hamburguesa_Pizza> a ns1:Node ;
-    ns1:Ingredientes_no_consumir <http://example.org/node/Carne_Ingredientes_con_gluten_Hamburguesa_Pizza> .
+<http://example.org/node/Guido> a ns1:Node .
 
-<http://example.org/node/Javier> a ns1:Node .
+<http://example.org/node/Pescado> a ns1:Node ;
+    ns1:Ingredientes_no_consumir <http://example.org/node/Productos_de_origen_animal_Ingredientes_con_gluten_Pescado> .
 
-<http://example.org/node/Pescado> a ns1:Node .
+<http://example.org/node/Tomate_Cebolla> a ns1:Node .
 
-<http://example.org/node/Vegetariana> a ns1:Node ;
-    ns1:Ingredientes_no_consumir <http://example.org/node/Carne_Ingredientes_con_gluten_Hamburguesa_Pizza> .
+<http://example.org/node/Vegana> a ns1:Node ;
+    ns1:Ingredientes_no_consumir <http://example.org/node/Productos_de_origen_animal_Ingredientes_con_gluten_Pescado> .
 
-<http://example.org/node/Carne_Ingredientes_con_gluten_Hamburguesa_Pizza> a ns1:Node .
+<http://example.org/node/Productos_de_origen_animal_Ingredientes_con_gluten_Pescado> a ns1:Node .
 

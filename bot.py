@@ -5,6 +5,7 @@ import logging
 from chatbot import *
 from graph import *
 from decouple import config
+import pickle
 
 clasificador = pickle.load(open('clasificador.pickle', 'rb'))
 vectorizer = pickle.load(open('vectorizer.pickle', 'rb'))
@@ -118,7 +119,7 @@ def make_recipe(message):
     # Obtener la parte del mensaje después de "/ingredientes"
     ingredientes_str = message_text[len("/ingredientes"):].strip()
     if len(ingredientes_str) == 0:
-        message.reply("Por favor, ingresa los ingredientes que tienes disponibles.")
+        bot.reply_to(message, "Por favor, ingresa los ingredientes que tienes disponibles.")
         return
     else:
         # Aquí puedes llamar a una función para procesar los ingredientes y sugerir recetas
@@ -136,7 +137,7 @@ def handle_text(message) -> None:
     # Obtén el mensaje de texto del usuario
     user_message = message.text
     print("Mensaje:", user_message)
-    bot_response = clas(user_message, clasificador, vectorizer, retriever)
+    bot_response = clas(user_message, clasificador, vectorizer, retriever, message.chat.id)
     if isinstance(bot_response, list):
         for i in bot_response:
             bot.reply_to(message, i)

@@ -12,8 +12,8 @@ from chromadatabase import load_collection
 import nltk
 from maps_scraper import *
 import pandas as pd
-import pickle
 from time import sleep
+from context import *
 
 nltk.download('stopwords')
 from nltk.corpus import stopwords
@@ -50,7 +50,7 @@ def zephyr_instruct_template(messages, add_generation_prompt=True):
 
 
 # Aquí hacemos la llamada el modelo
-def generate_answer(prompt: str, max_new_tokens: int = 768) -> None:
+def generate_answer(prompt: str, max_new_tokens: int = 768, ) -> None:
     try:
         # Tu clave API de Hugging Face
         api_key = config('HUGGINGFACE_TOKEN')
@@ -84,13 +84,17 @@ def generate_answer(prompt: str, max_new_tokens: int = 768) -> None:
         print(f"An error occurred: {e}")
 
 # Esta función prepara el prompt en estilo QA
-def prepare_prompt(query_str: str, nodes: list):
+def prepare_prompt(query_str: str, nodes: list, user_info: str = None):
   TEXT_QA_PROMPT_TMPL = (
+      "La información del usuario es la siguiente:\n"
+        "---------------------\n"
+        "{user_info_str}\n"
+        "---------------------\n"
       "La información de contexto es la siguiente:\n"
       "---------------------\n"
       "{context_str}\n"
       "---------------------\n"
-      "RESPONDE EN ESPAÑOL. Dada la información de contexto anterior, y sin utilizar conocimiento previo, responde en español la siguiente consulta. En caso de que tu respuesta sea una receta envíala con título, ingredientes, procedimiento y meciona en que página de que libro se encuentra sin agregarle al título el nombre de la carpeta que es llamaindex_data. No debes agregar recetas de otros libros ni material adicional. En caso de que la receta pedida no se encuentre en el material provisto debes aclararlo y no enviar receta. No añadas el directorio de los libros en las respuestas.\n"
+      "RESPONDE EN ESPAÑOL. Dada la información de contexto anterior, y sin utilizar conocimiento previo, responde en español la siguiente consulta. En caso de que tu respuesta sea una receta envíala con título, ingredientes, procedimiento. No debes agregar recetas de otros libros ni material adicional. En caso de que la receta pedida no se encuentre en el material provisto debes aclararlo y no enviar receta.\n"
       "Pregunta: {query_str}\n"
       "Respuesta: "
   )
@@ -109,7 +113,7 @@ def prepare_prompt(query_str: str, nodes: list):
           "role": "system",
           "content": "Eres un asistente de cocina útil que siempre responde con respuestas veraces, útiles y basadas en hechos.",
       },
-      {"role": "user", "content": TEXT_QA_PROMPT_TMPL.format(context_str=context_str, query_str=query_str)},
+      {"role": "user", "content": TEXT_QA_PROMPT_TMPL.format(context_str=context_str, query_str=query_str, user_info_str=user_info)},
   ]
 
   final_prompt = zephyr_instruct_template(messages)
@@ -139,18 +143,16 @@ def load_model():
 
     return retriever
 
-def clas(query_str: str, clasificador, vectorizer, retriever):
+def clas(query_str: str, clasificador, vectorizer, retriever, user_id: int = 0):
     vectorized_query = vectorizer.transform([query_str])
     prediction = clasificador.predict(vectorized_query)
-    print(prediction)
     if prediction[0] == 1:
-        print(query_str)
-        answer = get_answer(retriever, query_str)
+        context = generate_context(user_id)
+        answer = get_answer(retriever, query_str, context)
         return answer
     else:
         resultados=[]
         places, keywords, locations = extract_entities(query_str)
-        print(places, keywords, locations)
         obtain_places(places[0], " ".join(keywords), locations[0], query_str)
         # Seleccionar los primeros 5 restaurantes
 
@@ -168,7 +170,7 @@ def clas(query_str: str, clasificador, vectorizer, retriever):
             resultados.append(resultado_escrito)
         return resultados
     
-def get_answer(retriever, query_str:str):
+def get_answer(retriever, query_str:str, context: str = None):
     nodes = retriever.retrieve(query_str)
-    final_prompt = prepare_prompt(query_str, nodes)
+    final_prompt = prepare_prompt(query_str, nodes, context)
     return generate_answer(final_prompt)
