@@ -16,21 +16,30 @@ bot = telebot.TeleBot(TELEGRAM_TOKEN) # You can set parse_mode by default. HTML 
 
 usuarios = {}
 
-@bot.message_handler(commands=['start', 'help'])
+@bot.message_handler(commands=['start'])
 def send_welcome(message):
     welcome_message = (
         "¡Bienvenido a LinguinIA, tu asistente culinario! 🍳👩‍🍳\n"
         "Estoy aquí para ayudarte a descubrir nuevas recetas y mejorar tus habilidades en la cocina.\n\n"
         "Puedes pedirme una receta especifíca y te ayudaré a encontrarla.\n\n"
-        "O Puedes utilizar los siguientes comandos:\n"
+        "Se recomienda completar el perfil antes de comenzar a utilizar el bot.\n\n"
         "/perfil - Completa tu perfil para recibir recomendaciones personalizadas.\n"
-        "/hoy - Descubre la sugerencia del día para tu comida.\n"
-        "/ingredientes - Proporciona una lista de ingredientes y te diré qué recetas puedes preparar.\n"
-        "/tips - Obtén consejos útiles para mejorar tus habilidades culinarias.\n"
-        "¡Explora las recetas, sorprende a tus seres queridos y disfruta de la magia de la cocina!"
     )
     bot.send_message(message.chat.id, welcome_message)
 
+@bot.message_handler(commands=['help'])
+def send_welcome(message):
+    welcome_message = (
+
+        "Puedes utilizar los siguientes comandos:\n"
+        
+        "/hoy - Descubre la sugerencia del día para tu comida.\n"
+        "/ingredientes - Proporciona una lista de ingredientes y te diré qué recetas puedes preparar.\n"
+        "/tips - Obtén consejos útiles para mejorar tus habilidades culinarias.\n"
+
+        "También puedo recomendarte restaurantes y bares cercanos a tu ubicación.\n\n"
+    )
+    bot.send_message(message.chat.id, welcome_message)
 
 @bot.message_handler(commands=['perfil'])
 def profile(message):
@@ -104,7 +113,7 @@ def save_profile(message):
     texto = 'Datos introducidos:\n'
     for key, value in usuarios[message.chat.id].items():
         texto += f"{key}: {value}\n"
-    bot.send_message(chat_id, "¡Gracias por completar tu perfil!")
+    bot.send_message(chat_id, "¡Gracias por completar tu perfil! Puedes usar /help para ver los comandos disponibles.")
     print(usuarios[message.chat.id])
     create_graph(usuarios[message.chat.id], message.chat.id)
 
