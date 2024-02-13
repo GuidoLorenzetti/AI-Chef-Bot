@@ -1,6 +1,6 @@
 <h1 align="center">
   <br>
-  <img src="https://raw.githubusercontent.com/GuidoLorenzetti/AI-Chef-Bot/main/app/styles/logo1.jpeg" alt="AICHEFBOT" width="200"></a>
+  <img src="https://raw.githubusercontent.com/GuidoLorenzetti/AI-Chef-Bot/main/app/styles/logo1-removebg-preview.png" alt="AICHEFBOT" width="200"></a>
   <br>
   AI-Chef-Bot
   <br>
@@ -21,8 +21,8 @@ AI Chef Bot es un bot de Telegram que pretende ser tu asistente personal en tus 
 
 ## Requerimientos
 
-- Python 2.10
-- pip 21.1.3
+- Python 3.10
+- pip 23.3.2
 - virtualenv 20.6.0
 
 ## ¿Cómo usar?
@@ -53,11 +53,41 @@ $ python bot.py
 
 Busca a `@Linguinia_bot` y comienza a chatear con él, o sigue este [enlace](https://t.me/Linguinia_bot).
 
-![screenshot](https://raw.githubusercontent.com/GuidoLorenzetti/AI-Chef-Bot/main/app/telegram/captura%20(1).png)
+![screenshot](https://raw.githubusercontent.com/GuidoLorenzetti/AI-Chef-Bot/main/app/telegram/screenshot%20(1).png)
 
+![screenshot](https://raw.githubusercontent.com/GuidoLorenzetti/AI-Chef-Bot/main/app/telegram/screenshot%20(2).png)
+
+![screenshot](https://raw.githubusercontent.com/GuidoLorenzetti/AI-Chef-Bot/main/app/telegram/screenshot%20(3).png)
+
+![screenshot](https://raw.githubusercontent.com/GuidoLorenzetti/AI-Chef-Bot/main/app/telegram/screenshot%20(4).png)
+
+![screenshot](https://raw.githubusercontent.com/GuidoLorenzetti/AI-Chef-Bot/main/app/telegram/screenshot%20(5).png)
+
+![screenshot](https://raw.githubusercontent.com/GuidoLorenzetti/AI-Chef-Bot/main/app/telegram/screenshot%20(6).png)
+
+
+## Funcionamiento
+
+<div style="text-align: justify;">
+
+El propósito de este proyecto es desarrollar un bot lo mas amigable con el usuario posible. Para ello, se utilizaron distintas herramientas de **NLP** y **Web Scraping** para obtener información de recetas y restaurantes.
+El repositorio cuenta con los siguientes scripts:
+
+* `bot.py`: Script principal que corre el bot de Telegram y gestiona las respuestas a los mensajes. Además es el encargado de obtener las respuestas del usuario al formulario del perfil para generar una base de datos de conocimiento personalizada.
+* `chatbot.py`: Es el módulo encargado de gestionar el chatbot de IA. Ingluye los siguientes métodos:
+  - load_model: Obtiene la base de datos de chromadb y carga en memoria el retriever.
+  - clas: Clasifica el prompt del usuario para elegir que acciones ejecutar.
+  - get_answer: Obtiene la respuesta del chatbot a partir de un mensaje de entrada.
+* `chromadabase.py`: Se encarga de cargar los documentos de la carpeta llamaindex_data en una base de datos chromadb
+* `clasifier.py`: Se utilizó para entrenar un clasificador de texto que clasifica los mensajes de entrada en distintas categorías (Puede ser reutilizado para futuras actualizaciones).
+* `graph.py`: Diseña la base de datos rdf del usuario.
+* `context.py`: Obtiene la base de datos rdf del usuario y genera un contexto para el chatbot. Esto permite obtener respuestas mas personalizadas.
+* `maps_scraper.py`: Este módulo, en conjunto con la librería google-maps-scraper, permiten obtener los lugares de comida que especifique el usuario. A partir de ello se guardan en un dataframe en la carpeta tabular_data y se devuelve al usuario los resultados obtenidos. Se puede modificar para mostrar mas o menos resultados en los mensajes.
+
+
+</div>
 
 ## Créditos
-
 
 <div style="text-align: justify;">
 
