@@ -1,13 +1,23 @@
-<!-- <h1 align="center">
+<h1 align="center">
   <br>
-  <a href="http://www.amitmerchant.com/electron-markdownify"><img src="https://raw.githubusercontent.com/amitmerchant1990/electron-markdownify/master/app/img/markdownify.png" alt="AICHEFBOT" width="200"></a>
+  <img src="https://raw.githubusercontent.com/GuidoLorenzetti/AI-Chef-Bot/main/app/styles/logo1.jpeg" alt="AICHEFBOT" width="200"></a>
   <br>
   AI-Chef-Bot
   <br>
-</h1> -->
+</h1>
 
+<p align="center">
+  <a href="#requerimientos">Requerimientos</a> •
+  <a href="#¿Cómo-usar?">¿Cómo usar?</a> •
+  <a href="#En-Telegram">En Telegram</a> •
+  <a href="#Créditos">Créditos</a> •
+</p>
 
-AI Chef Bot es un bot de Telegram que pretende ser tu asistente personal en tus recetas de cocina. Puedes preguntarle por recetas, ingredientes, y mucho más.
+<div style="text-align: justify;">
+
+AI Chef Bot es un bot de Telegram que pretende ser tu asistente personal en tus recetas de cocina. Puedes preguntarle por recetas, ingredientes, y mucho más. Además, cuenta con una funcionalidad de búsqueda de restaurantes cercanos a tu ubicación.
+
+</div>
 
 ## Requerimientos
 
@@ -41,4 +51,18 @@ $ python bot.py
 
 ## En Telegram
 
-![screenshot](https://raw.githubusercontent.com/GuidoLorenzetti/AI-Chef-Bot/app/telegram/captura(2).png)
+Busca a `@Linguinia_bot` y comienza a chatear con él, o sigue este [enlace](https://t.me/Linguinia_bot).
+
+![screenshot](https://raw.githubusercontent.com/GuidoLorenzetti/AI-Chef-Bot/main/app/telegram/captura%20(1).png)
+
+
+## Créditos
+
+
+<div style="text-align: justify;">
+
+Este proyecto fue creado por [Guido Lorenzetti](https://github.com/GuidoLorenzetti) como trabajo práctico final para la materia **Procesamiento de Lenguaje Natural** de la carrera *Tecnicatura Universitaria en Inteligencia Artificial*.
+
+Agradecimientos especiales a los desarrolladores de [Google Maps Scraper](https://github.com/omkarcloud/google-maps-scraper?tab=readme-ov-file) por crear una herramienta de código abierto de tan alta calidad.
+
+</div>

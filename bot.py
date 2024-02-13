@@ -7,6 +7,7 @@ from graph import *
 from decouple import config
 import pickle
 
+os.chdir(os.path.dirname(os.path.abspath(__file__)))
 clasificador = pickle.load(open('clasificador.pickle', 'rb'))
 vectorizer = pickle.load(open('vectorizer.pickle', 'rb'))
 
@@ -107,6 +108,7 @@ def process_favfood_step(message):
     bot.register_next_step_handler(diet, save_profile)
 
 def save_profile(message):
+
     chat_id = message.chat.id
     leastfavfood = message.text.replace(" ", "").split(",")
     usuarios[message.chat.id]['comidas_menos_preferidas'] = leastfavfood
@@ -115,6 +117,7 @@ def save_profile(message):
         texto += f"{key}: {value}\n"
     bot.send_message(chat_id, "¡Gracias por completar tu perfil! Puedes usar /help para ver los comandos disponibles.")
     print(usuarios[message.chat.id])
+    #set program path
     create_graph(usuarios[message.chat.id], message.chat.id)
 
 @bot.message_handler(commands=['hoy'])
@@ -131,6 +134,7 @@ def make_recipe(message):
         bot.reply_to(message, "Por favor, ingresa los ingredientes que tienes disponibles.")
         return
     else:
+
         # Aquí puedes llamar a una función para procesar los ingredientes y sugerir recetas
         suggested_recipes = get_answer(retriever, "Dame una receta con los ingredientes: " + ", ".join(ingredientes_str))
 
@@ -158,7 +162,6 @@ def handle_text(message) -> None:
 logging.basicConfig(level=logging.INFO)
 
 def load_data():
-
     global retriever
     try:
         retriever = load_model()

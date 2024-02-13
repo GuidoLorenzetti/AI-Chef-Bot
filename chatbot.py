@@ -14,6 +14,7 @@ from maps_scraper import *
 import pandas as pd
 from time import sleep
 from context import *
+import pyshorteners as ps
 
 nltk.download('stopwords')
 from nltk.corpus import stopwords
@@ -144,11 +145,13 @@ def load_model():
     return retriever
 
 def clas(query_str: str, clasificador, vectorizer, retriever, user_id: int = 0):
+    os.chdir(os.path.dirname(os.path.abspath(__file__)))
     vectorized_query = vectorizer.transform([query_str])
     prediction = clasificador.predict(vectorized_query)
     if prediction[0] == 1:
         context = generate_context(user_id)
         answer = get_answer(retriever, query_str, context)
+        os.chdir(os.path.dirname(os.path.abspath(__file__)))
         return answer
     else:
         resultados=[]
@@ -164,13 +167,15 @@ def clas(query_str: str, clasificador, vectorizer, retriever, user_id: int = 0):
         for index, restaurante in primeros_5.iterrows():
             resultado_escrito = ""
             resultado_escrito += f"Restaurante: {restaurante['name']}\n"
-            resultado_escrito += f"Enlace: {restaurante['link']}\n"
+            resultado_escrito += f"Enlace: {ps.Shortener().tinyurl.short(restaurante['link'])}\n"
             resultado_escrito += f"Calificación: {restaurante['rating']}\n"
             resultado_escrito += f"Dirección: {restaurante['address']}\n\n"
             resultados.append(resultado_escrito)
+        os.chdir(os.path.dirname(os.path.abspath(__file__)))    
         return resultados
     
 def get_answer(retriever, query_str:str, context: str = None):
+    os.chdir(os.path.dirname(os.path.abspath(__file__)))
     nodes = retriever.retrieve(query_str)
     final_prompt = prepare_prompt(query_str, nodes, context)
     return generate_answer(final_prompt)

@@ -82,7 +82,8 @@ def create_graph(datos_usuario, usuario):
         rdf_graph.add((subject_uri, URIRef(f"http://example.org/ontology/{relation_label}"), object_uri))
 
     # Crear la carpeta si no existe
-    folder_path = 'graph_databases'
+    repo_path = os.path.dirname(os.path.abspath(__file__))
+    folder_path = os.path.join(repo_path, 'graph_databases')
     os.makedirs(folder_path, exist_ok=True)
 
     # Serialise and print the RDF graph (Turtle format)

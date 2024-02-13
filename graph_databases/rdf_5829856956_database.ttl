@@ -1,0 +1,26 @@
+@prefix ns1: <http://example.org/ontology/> .
+
+<http://example.org/node/5829856956> a ns1:Node ;
+    ns1:alergias <http://example.org/node/Ninguna> ;
+    ns1:comidas_menos_preferidas <http://example.org/node/Sushi_pescado_mondongo_ri%C3%B1%C3%B3n_achuras> ;
+    ns1:comidas_preferidas <http://example.org/node/Asado_pizza_hamburguesa_empanadas_%C3%B1oquis> ;
+    ns1:edad <http://example.org/node/21> ;
+    ns1:nombre <http://example.org/node/Augusto> ;
+    ns1:sensibilidad <http://example.org/node/Sin%20restricciones> .
+
+<http://example.org/node/21> a ns1:Node .
+
+<http://example.org/node/Asado_pizza_hamburguesa_empanadas_%C3%B1oquis> a ns1:Node .
+
+<http://example.org/node/Augusto> a ns1:Node .
+
+<http://example.org/node/Ninguna> a ns1:Node ;
+    ns1:Ingredientes_no_consumir <http://example.org/node/> .
+
+<http://example.org/node/Sin%20restricciones> a ns1:Node ;
+    ns1:Ingredientes_no_consumir <http://example.org/node/> .
+
+<http://example.org/node/Sushi_pescado_mondongo_ri%C3%B1%C3%B3n_achuras> a ns1:Node .
+
+<http://example.org/node/> a ns1:Node .
+
