@@ -1,26 +1,30 @@
 @prefix ns1: <http://example.org/ontology/> .
 
 <http://example.org/node/6319966688> a ns1:Node ;
-    ns1:alergias <http://example.org/node/Ninguna> ;
-    ns1:comidas_menos_preferidas <http://example.org/node/Ensalada_Estofado> ;
-    ns1:comidas_preferidas <http://example.org/node/Hamburguesa_Asado_Pollo> ;
+    ns1:alergias <http://example.org/node/Man%C3%AD> ;
+    ns1:comidas_menos_preferidas <http://example.org/node/Ensalada> ;
+    ns1:comidas_preferidas <http://example.org/node/Hamburguesa_Fideos> ;
+    ns1:dieta <http://example.org/node/Vegana> ;
     ns1:edad <http://example.org/node/24> ;
     ns1:nombre <http://example.org/node/Guido> ;
-    ns1:sensibilidad <http://example.org/node/Sin%20restricciones> .
+    ns1:sensibilidad <http://example.org/node/Celiaquia> .
 
 <http://example.org/node/24> a ns1:Node .
 
-<http://example.org/node/Ensalada_Estofado> a ns1:Node .
+<http://example.org/node/Celiaquia> a ns1:Node ;
+    ns1:Ingredientes_no_consumir <http://example.org/node/Productos_de_origen_animal_Ingredientes_con_gluten_Man%C3%AD> .
+
+<http://example.org/node/Ensalada> a ns1:Node .
 
 <http://example.org/node/Guido> a ns1:Node .
 
-<http://example.org/node/Hamburguesa_Asado_Pollo> a ns1:Node .
+<http://example.org/node/Hamburguesa_Fideos> a ns1:Node .
 
-<http://example.org/node/Ninguna> a ns1:Node ;
-    ns1:Ingredientes_no_consumir <http://example.org/node/> .
+<http://example.org/node/Man%C3%AD> a ns1:Node ;
+    ns1:Ingredientes_no_consumir <http://example.org/node/Productos_de_origen_animal_Ingredientes_con_gluten_Man%C3%AD> .
 
-<http://example.org/node/Sin%20restricciones> a ns1:Node ;
-    ns1:Ingredientes_no_consumir <http://example.org/node/> .
+<http://example.org/node/Vegana> a ns1:Node ;
+    ns1:Ingredientes_no_consumir <http://example.org/node/Productos_de_origen_animal_Ingredientes_con_gluten_Man%C3%AD> .
 
-<http://example.org/node/> a ns1:Node .
+<http://example.org/node/Productos_de_origen_animal_Ingredientes_con_gluten_Man%C3%AD> a ns1:Node .
 

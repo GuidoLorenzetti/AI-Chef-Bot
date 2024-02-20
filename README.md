@@ -82,7 +82,7 @@ El repositorio cuenta con los siguientes scripts:
 * `clasifier.py`: Se utilizó para entrenar un clasificador de texto que clasifica los mensajes de entrada en distintas categorías (Puede ser reutilizado para futuras actualizaciones).
 * `graph.py`: Diseña la base de datos rdf del usuario.
 * `context.py`: Obtiene la base de datos rdf del usuario y genera un contexto para el chatbot. Esto permite obtener respuestas mas personalizadas.
-* `maps_scraper.py`: Este módulo, en conjunto con la librería google-maps-scraper, permiten obtener los lugares de comida que especifique el usuario. A partir de ello se guardan en un dataframe en la carpeta tabular_data y se devuelve al usuario los resultados obtenidos. Se puede modificar para mostrar mas o menos resultados en los mensajes.
+* `maps_scraper.py`: Este módulo, en conjunto con el repositorio google-maps-scraper, permiten obtener los lugares de comida que especifique el usuario. A partir de ello se guardan en un dataframe en la carpeta tabular_data y se devuelve al usuario los resultados obtenidos. Se puede modificar para mostrar mas o menos resultados en los mensajes.
 
 
 </div>

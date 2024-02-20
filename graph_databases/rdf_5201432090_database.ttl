@@ -1,0 +1,30 @@
+@prefix ns1: <http://example.org/ontology/> .
+
+<http://example.org/node/5201432090> a ns1:Node ;
+    ns1:alergias <http://example.org/node/Ninguna> ;
+    ns1:comidas_menos_preferidas <http://example.org/node/Berenjena_picantes> ;
+    ns1:comidas_preferidas <http://example.org/node/Milanesas_empanadas_alfajores_tartas> ;
+    ns1:dieta <http://example.org/node/Vegetariana> ;
+    ns1:edad <http://example.org/node/54> ;
+    ns1:nombre <http://example.org/node/Roque> ;
+    ns1:sensibilidad <http://example.org/node/Celiaquia> .
+
+<http://example.org/node/54> a ns1:Node .
+
+<http://example.org/node/Berenjena_picantes> a ns1:Node .
+
+<http://example.org/node/Celiaquia> a ns1:Node ;
+    ns1:Ingredientes_no_consumir <http://example.org/node/Carne_Ingredientes_con_gluten> .
+
+<http://example.org/node/Milanesas_empanadas_alfajores_tartas> a ns1:Node .
+
+<http://example.org/node/Ninguna> a ns1:Node ;
+    ns1:Ingredientes_no_consumir <http://example.org/node/Carne_Ingredientes_con_gluten> .
+
+<http://example.org/node/Roque> a ns1:Node .
+
+<http://example.org/node/Vegetariana> a ns1:Node ;
+    ns1:Ingredientes_no_consumir <http://example.org/node/Carne_Ingredientes_con_gluten> .
+
+<http://example.org/node/Carne_Ingredientes_con_gluten> a ns1:Node .
+
