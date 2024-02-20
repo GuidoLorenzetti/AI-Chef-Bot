@@ -57,7 +57,6 @@ def obtain_places(place, características, city, name):
         nueva_ruta = os.path.join(destination_path, nuevo_nombre)
         os.rename(ruta_original, nueva_ruta)
 
-
     except Exception as e:
         print(f"Error al mover y renombrar archivos: {e}")
 

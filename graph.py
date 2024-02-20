@@ -5,15 +5,8 @@ import urllib.parse
 import os
 
 def create_graph(datos_usuario, usuario):
-
     # Crear un grafo dirigido
     G = nx.DiGraph()
-
-    # # Obtener el nombre del usuario
-    # usuario = list(datos_usuario.keys())[0]
-
-    # # Obtener el subdiccionario
-    # datos_usuario = datos_usuario[usuario]
 
     # Agregar el nodo principal
     G.add_node(usuario, label="Usuario")
@@ -35,14 +28,6 @@ def create_graph(datos_usuario, usuario):
     G.add_edge(datos_usuario['dieta'], value, label="Ingredientes no consumir")
     G.add_edge(datos_usuario['sensibilidad'], value, label="Ingredientes no consumir")
     G.add_edge(value1, value, label="Ingredientes no consumir")
-
-    # pos = nx.spring_layout(G, seed=42)
-    # labels = nx.get_edge_attributes(G, 'label')
-    # nx.draw(G, pos, with_labels=True, node_size=2000, node_color="skyblue", font_size=8, font_color="black", font_weight="bold", font_family="sans-serif")
-    # nx.draw_networkx_edge_labels(G, pos, edge_labels=labels)
-
-    # # Mostrar el grafo
-    # plt.show()
 
     # Create an RDF graph
     rdf_graph = Graph()
