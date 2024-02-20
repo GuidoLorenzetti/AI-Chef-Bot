@@ -65,6 +65,12 @@ Busca a `@Linguinia_bot` y comienza a chatear con él, o sigue este [enlace](htt
 
 ![screenshot](https://raw.githubusercontent.com/GuidoLorenzetti/AI-Chef-Bot/main/app/telegram/screenshot%20(6).png)
 
+## Estructura General
+
+La arquitectura general del bot de Telegram es la siguiente:
+
+![screenshot](https://raw.githubusercontent.com/GuidoLorenzetti/AI-Chef-Bot/main/app/styles/Esquema.png)
+
 
 ## Funcionamiento
 
