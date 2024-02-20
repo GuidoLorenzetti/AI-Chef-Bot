@@ -8,9 +8,11 @@
 
 <p align="center">
   <a href="#requerimientos">Requerimientos</a> •
-  <a href="#¿Cómo-usar?">¿Cómo usar?</a> •
-  <a href="#En-Telegram">En Telegram</a> •
-  <a href="#Créditos">Créditos</a> •
+  <a href="#¿cómo-usar">¿Cómo usar?</a> •
+  <a href="#en-telegram">En Telegram</a> •
+  <a href="#estructura-general">Estructura General</a> •
+  <a href="#funcionamiento">Funcionamiento</a> •
+  <a href="#créditos">Créditos</a> •
 </p>
 
 <div style="text-align: justify;">
